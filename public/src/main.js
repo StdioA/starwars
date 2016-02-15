@@ -64,13 +64,11 @@ var QuoteLayer = React.createClass({
 	searchQuote: function (event) {
 		var re = new RegExp(event.target.value.toLowerCase());
 		var filtedQuotes = quotes.filter(function (q) {
-			if (event.target.id="sglb") {
+			if (event.target.id=="sglb") {
 				return re.test(q.author.toLowerCase()) || re.test(q.quote.toLowerCase());
-				// return q.author.indexOf(value) != -1 || q.quote.indexOf(value) != -1;
 			}
 			else {
 				return re.test(q.author.toLowerCase());
-				// return q.author.indexOf(value) != -1;
 			}
 		});
 		this.setState({
@@ -80,34 +78,72 @@ var QuoteLayer = React.createClass({
 
 	render: function() {
 		var displayedQuote = this.state.quote;
+		var that = this;
+		var glButton = null;
+		var empty = $("#sglb").val() || $("#saut").val();
+
 		if (typeof displayedQuote == "string") {
 			var text = displayedQuote;
 		}
 		else {
 			var text = this.state.quote.quote + " " + this.state.quote.author;
 		}
-		var that = this;
+		
+		var quotesList = [];
+		if($("#sglb").val() || $("#saut").val()) {
+			quotesList = this.state.selectedQuotes;
+			$("#sel").removeClass("unseen");
+			// glButton = (
+			// 	);
+		}
+		else {
+			$("#sel").addClass("unseen");
+		}
+
 		return (
 			<div>
-				<h1>{text}</h1>
-				<button onClick={this.randomQuote} className="ui button" id="glb">Generate</button>
-				<button onClick={this.randomQuote} className="ui button" id="sel">Generate from the list below</button>
-				<div className="ui input">
-					<input type="text" placeholder="Search..." className="ui input" id="sglb" onChange={this.searchQuote} />
+				<h1 id="quote">{text}</h1>
+				<div className="ui two column six wide center aligned grid">
+					<div className="column">
+						<div className="ui label" data-content="Generate a random quote" data-variation="mini inverted" data-position="top center">
+							<button className="circular massive ui blue icon button" onClick={this.randomQuote} id="glb">
+								<i className="icon refresh"></i>
+							</button>
+						</div>
+					</div>
+					<div className="column">
+						<div className="ui label" data-content="Generate from the list below" data-variation="mini inverted" data-position="top center">
+							<button className="circular massive ui blue icon button unseen" onClick={this.randomQuote} id="sel">
+								<i className="icon refresh"></i>
+							</button>
+						</div>
+					</div>
 				</div>
-				<div className="ui input">
-					<input type="text" placeholder="Search Author" className="ui input" id="saut" onChange={this.searchQuote} />
+				<div className="ui two column six wide center aligned grid">
+					<div className="column">
+						<div className="ui input">
+							<input type="text" placeholder="Search..." className="ui input" id="sglb" onChange={this.searchQuote} />
+						</div>
+					</div>
+					<div className="column">
+						<div className="ui input">
+							<input type="text" placeholder="Search Author" className="ui input" id="saut" onChange={this.searchQuote} />
+						</div>
+					</div>
 				</div>
-				<div className="ui list">
-				{
-					this.state.selectedQuotes.map(function(q) {
-						return (
-							<div className="item" onClick={that.selectQuote}>
-								{q.quote + " " + q.author}
-							</div>
-						)
-					})
-				}
+				<div className="ui inverted segment">
+					<div className="ui inverted relaxed divided list">
+					{
+						
+						quotesList.map(function(q) {
+							return (
+								<div className="item" onClick={that.selectQuote}>
+									{q.quote + " " + q.author}
+								</div>
+							)
+						})
+					}
+					</div>
 				</div>
 			</div>
 		);
@@ -118,4 +154,6 @@ React.render(
 	<QuoteLayer />,
 	document.getElementById('container')
 );
+$(".ui.label").popup()
+
 
