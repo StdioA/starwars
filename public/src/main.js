@@ -39,7 +39,7 @@ var QuoteLayer = React.createClass({
 	getInitialState: function() {
 		return {
 			quote: quotes[parseInt(Math.random()*quotes.length)],
-			selectedQuotes: quotes
+			selectedQuotes: quotes,
 		}
 	},
 
@@ -62,18 +62,32 @@ var QuoteLayer = React.createClass({
 		});
 	},
 	searchQuote: function (event) {
-		var re = new RegExp(event.target.value.toLowerCase());
+		var re;
+		var inputElement = $("input#sglb, input#saut")[0];
+		var that = this;
+		var search_author = $("#search-author").hasClass("checked");
+
+		if (typeof event == "object") {
+			var re = new RegExp(event.target.value.toLowerCase());
+		}
+		else {
+			var re = new RegExp($("input#sglb, input#saut")[0].value.toLowerCase());
+		}
 		var filtedQuotes = quotes.filter(function (q) {
-			if (event.target.id=="sglb") {
+			if (!search_author) {
 				return re.test(q.author.toLowerCase()) || re.test(q.quote.toLowerCase());
 			}
 			else {
 				return re.test(q.author.toLowerCase());
 			}
 		});
+		console.log(filtedQuotes.length);
 		this.setState({
 			selectedQuotes: filtedQuotes
 		});
+	},
+	searchAuthor: function () {
+		this.searchQuote();
 	},
 
 	render: function() {
@@ -81,6 +95,7 @@ var QuoteLayer = React.createClass({
 		var that = this;
 		var glButton = null;
 		var empty = $("#sglb").val() || $("#saut").val();
+		var search_author = $("#search-author").hasClass("checked");
 
 		if (typeof displayedQuote == "string") {
 			var text = displayedQuote;
@@ -92,17 +107,17 @@ var QuoteLayer = React.createClass({
 		var quotesList = [];
 		if($("#sglb").val() || $("#saut").val()) {
 			quotesList = this.state.selectedQuotes;
-			$("#sel").removeClass("unseen");
-			// glButton = (
-			// 	);
+			$("#sel").removeClass("disabled");
 		}
 		else {
-			$("#sel").addClass("unseen");
+			$("#sel").addClass("disabled");
 		}
 
 		return (
 			<div>
-				<h1 id="quote">{text}</h1>
+				<div className="ui container" id="header">
+					<h1 id="quote">{text}</h1>
+				</div>
 				<div className="ui two column six wide center aligned grid">
 					<div className="column">
 						<div className="ui label" data-content="Generate a random quote" data-variation="mini inverted" data-position="top center">
@@ -113,37 +128,40 @@ var QuoteLayer = React.createClass({
 					</div>
 					<div className="column">
 						<div className="ui label" data-content="Generate from the list below" data-variation="mini inverted" data-position="top center">
-							<button className="circular massive ui blue icon button unseen" onClick={this.randomQuote} id="sel">
-								<i className="icon refresh"></i>
+							<button className="circular massive ui blue disabled icon button" onClick={this.randomQuote} id="sel">
+								<i className="icon repeat"></i>
 							</button>
 						</div>
 					</div>
 				</div>
-				<div className="ui two column six wide center aligned grid">
-					<div className="column">
-						<div className="ui input">
-							<input type="text" placeholder="Search..." className="ui input" id="sglb" onChange={this.searchQuote} />
+				<div className="ui two column center aligned grid">
+					<div className="two column centered row">
+						<div className="ten wide column" id="fields">
+							<div className="ui left icon input">
+								<input type="text" placeholder={search_author?"Search Author...":"Search..."} className="ui input" id={search_author?"saut":"sglb"} onChange={this.searchQuote} />
+								<i className="search icon"></i>
+							</div>
+						</div>
+						<div className="two wide center aligned column" id="fields">
+							<div className="ui toggle checkbox" id="search-author">
+								<input type="checkbox" name="search-author" tabIndex="0" className="hidden"/>
+								<label htmlFor="search-author" onClick={this.searchAuthor} className="blue">Search Author</label>
+							</div>
 						</div>
 					</div>
-					<div className="column">
-						<div className="ui input">
-							<input type="text" placeholder="Search Author" className="ui input" id="saut" onChange={this.searchQuote} />
-						</div>
-					</div>
-				</div>
-				<div className="ui inverted segment">
-					<div className="ui inverted relaxed divided list">
-					{
-						
-						quotesList.map(function(q) {
-							return (
-								<div className="item" onClick={that.selectQuote}>
-									{q.quote + " " + q.author}
+						<div className="twelve wide column padding-top-0">
+								<div className="ui inverted relaxed divided list">
+								{
+									quotesList.map(function(q) {
+										return (
+											<div className="item" onClick={that.selectQuote}>
+												{q.quote + " " + q.author}
+											</div>
+										)
+									})
+								}
 								</div>
-							)
-						})
-					}
-					</div>
+						</div>
 				</div>
 			</div>
 		);
@@ -154,6 +172,27 @@ React.render(
 	<QuoteLayer />,
 	document.getElementById('container')
 );
-$(".ui.label").popup()
+$("#container .ui.label").popup()
 
+$('#search-author').checkbox({
+    onChecked: function() {
+        $('.ui.modal')
+            .modal({
+                closable: false,
+                onApprove: function() {
+                    $('#search-author').addClass('disabled');
+                },
+                onDeny: function() {
+                    $('#search-author input').prop('checked', false);
+                }
+            })
+            .modal('show');
+    }
+});
 
+$("button").on("click", function () {
+	$(this).addClass("spin");
+	setTimeout(function () {
+		$(this).removeClass("spin");
+	}, 1000);
+});

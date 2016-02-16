@@ -1,16 +1,19 @@
-body {
-	background: #262626;
+
+html {
+	overflow-y: hidden;
 }
 
-@keyframes fade-in {  
-    0% {opacity: 0;}/*初始状态 透明度为0*/  
-    40% {opacity: 0;}/*过渡状态 透明度为0*/  
-    100% {opacity: 1;}/*结束状态 透明度为1*/  
-}  
-@-webkit-keyframes fade-in {/*针对webkit内核*/  
-	0% {opacity: 0;}  
-	40% {opacity: 0;}  
-	100% {opacity: 1;}  
+body {
+	background: #262626;
+	font: Calibri, sans-serif;
+}
+
+#container {
+	margin-top: 60px;
+}
+
+#header {
+	margin: 20px 0;
 }
 
 #quote {
@@ -25,10 +28,8 @@ body {
 	display: none !important;
 }
 
-#sel {
-	animation: fade-in;/*动画名称*/  
-    animation-duration: 0.5s;/*动画持续时间*/  
-    -webkit-animation:fade-in 0.5s;/*针对webkit内核*/  
+.spin {
+	animation: button-spin 0.6s linear;
 }
 
 div.ui>input {
@@ -43,10 +44,47 @@ div.ui>input {
 	background: #4472c4;
 }
 
-.ui.list>.item:nth-child(even: ;) {
+.ui.list>.item:nth-child(even) {
 	background: #34599c;
 }
 
-.ui.inverted.segment {
-	background: #262626;
+#search-author label.blue, #search-author input:checked~label.blue {
+	color: #58b2dc !important;
+}
+
+#search-author label:before {
+	background: rgba(255, 255, 255, 0.7) !important;
+	margin-top: 7px;
+}
+
+#search-author label:after {
+	margin-top: 7px;
+}
+
+#search-author input:checked~label:before, #search-author input:focus:checked~label:before {
+	background: rgba(0, 255, 0, 0.7) !important;
+}
+
+.ui.list {
+	color: white;
+}
+
+.ui.list>.item:first-child {
+	border-top: 5px solid inherit;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.ui.list>.item:last-child {
+	border-top: 5px solid inherit;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+#fields>div.input {
+	width: 100%;
+}
+
+.padding-top-0 {
+	padding-top: 0 !important;
 }
