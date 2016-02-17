@@ -1,0 +1,90 @@
+
+html {
+	overflow-y: hidden;
+}
+
+body {
+	background: #262626;
+	font: Calibri, sans-serif;
+}
+
+#container {
+	margin-top: 60px;
+}
+
+#header {
+	margin: 20px 0;
+}
+
+#quote {
+	color: #dbff25;
+}
+
+.ui.label {
+	background: transparent;
+}
+
+.unseen {
+	display: none !important;
+}
+
+.spin {
+	animation: button-spin 0.6s linear;
+}
+
+div.ui>input {
+	opacity: 0.8;
+}
+
+.ui[class*="two column"].grid>.column:not(.row), .ui[class*="two column"].grid>.row>.column {
+	width: auto;
+}
+
+.ui.list>.item:nth-child(odd) {
+	background: #4472c4;
+}
+
+.ui.list>.item:nth-child(even) {
+	background: #34599c;
+}
+
+#search-author label.blue, #search-author input:checked~label.blue {
+	color: #58b2dc !important;
+}
+
+#search-author label:before {
+	background: rgba(255, 255, 255, 0.7) !important;
+	margin-top: 7px;
+}
+
+#search-author label:after {
+	margin-top: 7px;
+}
+
+#search-author input:checked~label:before, #search-author input:focus:checked~label:before {
+	background: rgba(0, 255, 0, 0.7) !important;
+}
+
+.ui.list {
+	color: white;
+}
+
+.ui.list>.item:first-child {
+	border-top: 5px solid inherit;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.ui.list>.item:last-child {
+	border-top: 5px solid inherit;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+#fields>div.input {
+	width: 100%;
+}
+
+.padding-top-0 {
+	padding-top: 0 !important;
+}
