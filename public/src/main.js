@@ -34,19 +34,51 @@ var quotes = [{
   'quote': 'The Force is strong with this one.'
 }];
 
+// The button used to generate a random quote
+var GenerateButton = React.createClass({
+	render: function () {
+		return (
+			<div className="ui label" data-content={this.props.content} data-variation="mini inverted" data-position="top center">
+				<button className={"circular massive ui blue icon button"+(this.props.disabled?" disabled":"")}
+						onClick={this.props.onclick} id={this.props.id}>
+					<i className={"icon "+this.props.icon}></i>
+				</button>
+			</div>
+		);
+	}
+});
+
+// The list of search results
+var ResultList = React.createClass({
+	render: function () {
+		return (
+			<div className="ui inverted relaxed divided list">
+			{
+				this.props.items.map(function(q) {
+					return (
+						<div className="item" onClick={this.props.onclick}>
+							{q.quote + " " + q.author}
+						</div>
+					)
+				}, this)
+			}
+			</div>
+		);
+	}
+});
 
 var QuoteLayer = React.createClass({
 	getInitialState: function() {
 		return {
-			quote: quotes[parseInt(Math.random()*quotes.length)],
-			selectedQuotes: quotes,
+			quote: this.props.quotes[parseInt(Math.random()*this.props.quotes.length)],
+			selectedQuotes: this.props.quotes,
 		}
 	},
 
 	randomQuote: function (event) {
 		var tq;
 		if(event.target.id == "glb") {
-			tq = quotes;
+			tq = this.props.quotes;
 		}
 		else {
 			tq = this.state.selectedQuotes;
@@ -64,16 +96,15 @@ var QuoteLayer = React.createClass({
 	searchQuote: function (event) {
 		var re;
 		var inputElement = $("input#sglb, input#saut")[0];
-		var that = this;
 		var search_author = $("#search-author").hasClass("checked");
 
 		if (typeof event == "object") {
-			var re = new RegExp(event.target.value.toLowerCase());
+			re = new RegExp(event.target.value.toLowerCase());
 		}
 		else {
-			var re = new RegExp($("input#sglb, input#saut")[0].value.toLowerCase());
+			re = new RegExp($("input#sglb, input#saut")[0].value.toLowerCase());
 		}
-		var filtedQuotes = quotes.filter(function (q) {
+		var filtedQuotes = this.props.quotes.filter(function (q) {
 			if (!search_author) {
 				return re.test(q.author.toLowerCase()) || re.test(q.quote.toLowerCase());
 			}
@@ -81,7 +112,6 @@ var QuoteLayer = React.createClass({
 				return re.test(q.author.toLowerCase());
 			}
 		});
-		console.log(filtedQuotes.length);
 		this.setState({
 			selectedQuotes: filtedQuotes
 		});
@@ -92,25 +122,20 @@ var QuoteLayer = React.createClass({
 
 	render: function() {
 		var displayedQuote = this.state.quote;
-		var that = this;
 		var glButton = null;
-		var empty = $("#sglb").val() || $("#saut").val();
 		var search_author = $("#search-author").hasClass("checked");
+		var empty = !($("#sglb").val() || $("#saut").val());
 
 		if (typeof displayedQuote == "string") {
 			var text = displayedQuote;
 		}
 		else {
-			var text = this.state.quote.quote + " " + this.state.quote.author;
+			var text = displayedQuote.quote + " " + displayedQuote.author;
 		}
 		
 		var quotesList = [];
-		if($("#sglb").val() || $("#saut").val()) {
+		if(!empty) {
 			quotesList = this.state.selectedQuotes;
-			$("#sel").removeClass("disabled");
-		}
-		else {
-			$("#sel").addClass("disabled");
 		}
 
 		return (
@@ -120,18 +145,14 @@ var QuoteLayer = React.createClass({
 				</div>
 				<div className="ui two column six wide center aligned grid">
 					<div className="column">
-						<div className="ui label" data-content="Generate a random quote" data-variation="mini inverted" data-position="top center">
-							<button className="circular massive ui blue icon button" onClick={this.randomQuote} id="glb">
-								<i className="icon refresh"></i>
-							</button>
-						</div>
+						<GenerateButton content="Generate a random quote" 
+								onclick={this.randomQuote} icon="refresh"
+								id="glb" />
 					</div>
 					<div className="column">
-						<div className="ui label" data-content="Generate from the list below" data-variation="mini inverted" data-position="top center">
-							<button className="circular massive ui blue disabled icon button" onClick={this.randomQuote} id="sel">
-								<i className="icon repeat"></i>
-							</button>
-						</div>
+						<GenerateButton content="Generate from the list below" 
+								onclick={this.randomQuote} icon="repeat" 
+								d="sel" disabled={empty}/>
 					</div>
 				</div>
 				<div className="ui two column center aligned grid">
@@ -149,19 +170,9 @@ var QuoteLayer = React.createClass({
 							</div>
 						</div>
 					</div>
-						<div className="twelve wide column padding-top-0">
-								<div className="ui inverted relaxed divided list">
-								{
-									quotesList.map(function(q) {
-										return (
-											<div className="item" onClick={that.selectQuote}>
-												{q.quote + " " + q.author}
-											</div>
-										)
-									})
-								}
-								</div>
-						</div>
+					<div className="twelve wide column padding-top-0">
+						<ResultList items={quotesList} onclick={this.selectQuote}/>
+					</div>
 				</div>
 			</div>
 		);
@@ -169,11 +180,11 @@ var QuoteLayer = React.createClass({
 });
 
 React.render(
-	<QuoteLayer />,
+	<QuoteLayer quotes={quotes}/>,
 	document.getElementById('container')
 );
-$("#container .ui.label").popup()
 
+$("#container .ui.label").popup()
 $('#search-author').checkbox({
     onChecked: function() {
         $('.ui.modal')
@@ -189,10 +200,9 @@ $('#search-author').checkbox({
             .modal('show');
     }
 });
-
 $("button").on("click", function () {
 	$(this).addClass("spin");
 	setTimeout(function () {
 		$(this).removeClass("spin");
-	}, 1000);
+	}.bind(this), 600);
 });
