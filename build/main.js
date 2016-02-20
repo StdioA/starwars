@@ -54,9 +54,9 @@ var ResultList = React.createClass({displayName: "ResultList",
 		return (
 			React.createElement("div", {className: "ui inverted relaxed divided list"}, 
 			
-				this.props.items.map(function(q) {
+				this.props.items.map(function(q, i) {
 					return (
-						React.createElement("div", {className: "item", onClick: this.props.onclick}, 
+						React.createElement("div", {className: "item", onClick: this.props.onclick, key: i}, 
 							q.quote + " " + q.author
 						)
 					)
@@ -179,7 +179,7 @@ var QuoteLayer = React.createClass({displayName: "QuoteLayer",
 	}
 });
 
-React.render(
+ReactDOM.render(
 	React.createElement(QuoteLayer, {quotes: quotes}),
 	document.getElementById('container')
 );
