@@ -40,6 +40,11 @@ div.ui>input {
 	width: auto;
 }
 
+.ui.list>.item {
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
 .ui.list>.item:nth-child(odd) {
 	background: #4472c4;
 }
