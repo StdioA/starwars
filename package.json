@@ -19,5 +19,13 @@
   "homepage": "https://github.com/StdioA/starwars#readme",
   "dependencies": {
     "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-open": "^1.0.0",
+    "gulp-react": "^3.1.0",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
   }
 }
