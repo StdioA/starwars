@@ -18,8 +18,8 @@
 
 ### NetBeans ###
 nbproject/private/
-build/
-nbbuild/
+# build/
+# nbbuild/
 dist/
 nbdist/
 nbactions.xml
@@ -92,11 +92,6 @@ Temporary Items
 /test/tmp/
 /test/version_tmp/
 /tmp/
-
-## Specific to RubyMotion:
-.dat*
-.repl_history
-build/
 
 ## Documentation cache and generated files:
 /.yardoc/
@@ -178,8 +173,8 @@ node_modules/
 bower_components/
 *.log
 
-build/
-dist/
+./build/
+./dist/
 
 exports
 
