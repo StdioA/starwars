@@ -7,18 +7,26 @@ A Star Wars quotes generator with react, my first app using `React.js`.
 ## How to Run
 
 * If you have python installed:  
-    ``` bash
+  
+  ``` bash
     cd public
     python -m SimpleHTTPServer
-    ```
+  ```
+  
     or just type `sh server.sh`.
 
 
 * If you have `node.js` installed:  
+  
   `npm install` and `npm start`.
+  
+* If you have `gulp` installed:
+  
+  `gulp server`. See [gulpfile](./gulpfile.js).
 
 
 * If you have none of above installed:  
+  
   Build a static file server under the folder `public/`, or just visit <http://stdioa.github.io/starwars/>.
 
 ## Original README
