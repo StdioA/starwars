@@ -6,6 +6,8 @@ A Star Wars quotes generator with react, my first app using `React.js`.
 
 ## How to Run
 
+### For normal users
+
 * If you have python installed:  
   
   ``` bash
@@ -15,19 +17,28 @@ A Star Wars quotes generator with react, my first app using `React.js`.
   
     or just type `sh server.sh`.
 
-
 * If you have `node.js` installed:  
   
   `npm install` and `npm start`.
-  
-* If you have `gulp` installed:
-  
-  `gulp server`. See [gulpfile](./gulpfile.js).
-
 
 * If you have none of above installed:  
   
   Build a static file server under the folder `public/`, or just visit <http://stdioa.github.io/starwars/>.
+
+### For developers
+
+1. Install all the development dependencies.
+    `npm install --save-dev`
+
+2. Run `gulp server`. 
+
+    This will watch the `min.js` file under `build`. Once you change the JSX file, it will be transformed and compressed into `build/*.min.js` automatically, after that your webpage will reload.  
+
+    See [gulpfile](./gulpfile.js) for more information.
+
+## License
+
+[ISC](https://opensource.org/licenses/ISC)
 
 ## Original README
 

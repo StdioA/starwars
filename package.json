@@ -23,7 +23,6 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
-    "browser-sync": "^2.11.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-open": "^1.0.0",
