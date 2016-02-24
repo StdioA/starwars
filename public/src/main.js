@@ -179,30 +179,32 @@ var QuoteLayer = React.createClass({
 	}
 });
 
-ReactDOM.render(
-	<QuoteLayer quotes={quotes}/>,
-	document.getElementById('container')
-);
+$(document).ready(function () {
+	ReactDOM.render(
+		<QuoteLayer quotes={quotes}/>,
+		document.getElementById('container')
+	);
 
-$("#container .ui.label").popup()
-$('#search-author').checkbox({
-    onChecked: function() {
-        $('.ui.modal')
-            .modal({
-                closable: false,
-                onApprove: function() {
-                    $('#search-author').addClass('disabled');
-                },
-                onDeny: function() {
-                    $('#search-author input').prop('checked', false);
-                }
-            })
-            .modal('show');
-    }
-});
-$("button").on("click", function () {
-	$(this).addClass("spin");
-	setTimeout(function () {
-		$(this).removeClass("spin");
-	}.bind(this), 600);
+	$("#container .ui.label").popup()
+	$('#search-author').checkbox({
+	    onChecked: function() {
+	        $('.ui.modal')
+	            .modal({
+	                closable: false,
+	                onApprove: function() {
+	                    $('#search-author').addClass('disabled');
+	                },
+	                onDeny: function() {
+	                    $('#search-author input').prop('checked', false);
+	                }
+	            })
+	            .modal('show');
+	    }
+	});
+	$("button").on("click", function () {
+		$(this).addClass("spin");
+		setTimeout(function () {
+			$(this).removeClass("spin");
+		}.bind(this), 600);
+	});	
 });
