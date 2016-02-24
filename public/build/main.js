@@ -1,3 +1,6 @@
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var quotes = [{
 	'author': '- Yoda',
@@ -35,31 +38,53 @@ var quotes = [{
 }];
 
 // The button used to generate a random quote
-var GenerateButton = React.createClass({ displayName: "GenerateButton",
-	render: function () {
-		return React.createElement("div", { className: "ui label", "data-content": this.props.content, "data-variation": "mini inverted", "data-position": "top center" }, React.createElement("button", { className: "circular massive ui blue icon button" + (this.props.disabled ? " disabled" : ""),
-			onClick: this.props.onclick, id: this.props.id }, React.createElement("i", { className: "icon " + this.props.icon })));
+var GenerateButton = React.createClass({
+	displayName: 'GenerateButton',
+
+	render: function render() {
+		return React.createElement(
+			'div',
+			{ className: 'ui label', 'data-content': this.props.content, 'data-variation': 'mini inverted', 'data-position': 'top center' },
+			React.createElement(
+				'button',
+				{ className: "circular massive ui blue icon button" + (this.props.disabled ? " disabled" : ""),
+					onClick: this.props.onclick, id: this.props.id },
+				React.createElement('i', { className: "icon " + this.props.icon })
+			)
+		);
 	}
 });
 
 // The list of search results
-var ResultList = React.createClass({ displayName: "ResultList",
-	render: function () {
-		return React.createElement("div", { className: "ui inverted relaxed divided list" }, this.props.items.map(function (q, i) {
-			return React.createElement("div", { className: "item", onClick: this.props.onclick, key: i }, q.quote + " " + q.author);
-		}, this));
+var ResultList = React.createClass({
+	displayName: 'ResultList',
+
+	render: function render() {
+		return React.createElement(
+			'div',
+			{ className: 'ui inverted relaxed divided list' },
+			this.props.items.map(function (q, i) {
+				return React.createElement(
+					'div',
+					{ className: 'item', onClick: this.props.onclick, key: i },
+					q.quote + " " + q.author
+				);
+			}, this)
+		);
 	}
 });
 
-var QuoteLayer = React.createClass({ displayName: "QuoteLayer",
-	getInitialState: function () {
+var QuoteLayer = React.createClass({
+	displayName: 'QuoteLayer',
+
+	getInitialState: function getInitialState() {
 		return {
 			quote: this.props.quotes[parseInt(Math.random() * this.props.quotes.length)],
 			selectedQuotes: this.props.quotes
 		};
 	},
 
-	randomQuote: function (event) {
+	randomQuote: function randomQuote(event) {
 		var tq;
 		if (event.target.id == "glb") {
 			tq = this.props.quotes;
@@ -71,17 +96,17 @@ var QuoteLayer = React.createClass({ displayName: "QuoteLayer",
 			quote: quote
 		});
 	},
-	selectQuote: function (event) {
+	selectQuote: function selectQuote(event) {
 		this.setState({
 			quote: event.target.innerText
 		});
 	},
-	searchQuote: function (event) {
+	searchQuote: function searchQuote(event) {
 		var re;
 		var inputElement = $("input#sglb, input#saut")[0];
 		var search_author = $("#search-author").hasClass("checked");
 
-		if (typeof event == "object") {
+		if ((typeof event === 'undefined' ? 'undefined' : _typeof(event)) == "object") {
 			re = new RegExp(event.target.value.toLowerCase());
 		} else {
 			re = new RegExp($("input#sglb, input#saut")[0].value.toLowerCase());
@@ -97,11 +122,11 @@ var QuoteLayer = React.createClass({ displayName: "QuoteLayer",
 			selectedQuotes: filtedQuotes
 		});
 	},
-	searchAuthor: function () {
+	searchAuthor: function searchAuthor() {
 		this.searchQuote();
 	},
 
-	render: function () {
+	render: function render() {
 		var displayedQuote = this.state.quote;
 		var glButton = null;
 		var search_author = $("#search-author").hasClass("checked");
@@ -118,11 +143,74 @@ var QuoteLayer = React.createClass({ displayName: "QuoteLayer",
 			quotesList = this.state.selectedQuotes;
 		}
 
-		return React.createElement("div", null, React.createElement("div", { className: "ui container", id: "header" }, React.createElement("h1", { id: "quote" }, text)), React.createElement("div", { className: "ui two column six wide center aligned grid" }, React.createElement("div", { className: "column" }, React.createElement(GenerateButton, { content: "Generate a random quote",
-			onclick: this.randomQuote, icon: "refresh",
-			id: "glb" })), React.createElement("div", { className: "column" }, React.createElement(GenerateButton, { content: "Generate from the list below",
-			onclick: this.randomQuote, icon: "repeat",
-			d: "sel", disabled: empty }))), React.createElement("div", { className: "ui two column center aligned grid" }, React.createElement("div", { className: "two column centered row" }, React.createElement("div", { className: "ten wide column", id: "fields" }, React.createElement("div", { className: "ui left icon input" }, React.createElement("input", { type: "text", placeholder: search_author ? "Search Author..." : "Search...", className: "ui input", id: search_author ? "saut" : "sglb", onChange: this.searchQuote }), React.createElement("i", { className: "search icon" }))), React.createElement("div", { className: "two wide center aligned column", id: "fields" }, React.createElement("div", { className: "ui toggle checkbox", id: "search-author" }, React.createElement("input", { type: "checkbox", name: "search-author", tabIndex: "0", className: "hidden" }), React.createElement("label", { htmlFor: "search-author", onClick: this.searchAuthor, className: "blue" }, "Search Author")))), React.createElement("div", { className: "twelve wide column padding-top-0" }, React.createElement(ResultList, { items: quotesList, onclick: this.selectQuote }))));
+		return React.createElement(
+			'div',
+			null,
+			React.createElement(
+				'div',
+				{ className: 'ui container', id: 'header' },
+				React.createElement(
+					'h1',
+					{ id: 'quote' },
+					text
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'ui two column six wide center aligned grid' },
+				React.createElement(
+					'div',
+					{ className: 'column' },
+					React.createElement(GenerateButton, { content: 'Generate a random quote',
+						onclick: this.randomQuote, icon: 'refresh',
+						id: 'glb' })
+				),
+				React.createElement(
+					'div',
+					{ className: 'column' },
+					React.createElement(GenerateButton, { content: 'Generate from the list below',
+						onclick: this.randomQuote, icon: 'repeat',
+						d: 'sel', disabled: empty })
+				)
+			),
+			React.createElement(
+				'div',
+				{ className: 'ui two column center aligned grid' },
+				React.createElement(
+					'div',
+					{ className: 'two column centered row' },
+					React.createElement(
+						'div',
+						{ className: 'ten wide column', id: 'fields' },
+						React.createElement(
+							'div',
+							{ className: 'ui left icon input' },
+							React.createElement('input', { type: 'text', placeholder: search_author ? "Search Author..." : "Search...", className: 'ui input', id: search_author ? "saut" : "sglb", onChange: this.searchQuote }),
+							React.createElement('i', { className: 'search icon' })
+						)
+					),
+					React.createElement(
+						'div',
+						{ className: 'two wide center aligned column', id: 'fields' },
+						React.createElement(
+							'div',
+							{ className: 'ui toggle checkbox', id: 'search-author' },
+							React.createElement('input', { type: 'checkbox', name: 'search-author', tabIndex: '0', className: 'hidden' }),
+							React.createElement(
+								'label',
+								{ htmlFor: 'search-author', onClick: this.searchAuthor, className: 'blue' },
+								'Search Author'
+							)
+						)
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'twelve wide column padding-top-0' },
+					React.createElement(ResultList, { items: quotesList, onclick: this.selectQuote })
+				)
+			)
+		);
 	}
 });
 
@@ -131,13 +219,13 @@ $(document).ready(function () {
 
 	$("#container .ui.label").popup();
 	$('#search-author').checkbox({
-		onChecked: function () {
+		onChecked: function onChecked() {
 			$('.ui.modal').modal({
 				closable: false,
-				onApprove: function () {
+				onApprove: function onApprove() {
 					$('#search-author').addClass('disabled');
 				},
-				onDeny: function () {
+				onDeny: function onDeny() {
 					$('#search-author input').prop('checked', false);
 				}
 			}).modal('show');
